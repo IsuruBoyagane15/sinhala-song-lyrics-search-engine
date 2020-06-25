@@ -10,16 +10,15 @@
     </head>
 
     <body>
-        <br/> <br/>
         <div class=”container”>
             <form action="http://127.0.0.1:5000/" method="post">
-                    <div class="input-group">
-                        <form action="http://127.0.0.1:5000/" method="post">
-                            <input type="text" class="search_term" name="search_term"  placeholder="Give me a clue about a song?">
-                            <input type="submit" value="Submit">
-                        </form>
-                    </div>
-                </form>
+                <div class="input-group">
+                    <form action="http://127.0.0.1:5000/" method="post">
+                        <input type="text" class="search_term" name="search_term"  placeholder="Give me a clue about a song?">
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </form>
 
         {% if hits %}
             <hgroup class="mb20">
@@ -36,15 +35,13 @@
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Title: {{ hit._source.title_si }} </span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Genre: {{ hit._source.genre }} </span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Artist: {{ hit._source.artist }}</span></li>
-                             <li><i class="glyphicon glyphicon-tags"></i> <span>Music: {{ hit._source.music }}</span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Music: {{ hit._source.music }}</span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Lyrics: {{ hit._source.lyrics }}</span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Key: {{ hit._source.guitar_key }}</span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Beat: {{ hit._source.beat }}</span></li>
                         </ul>
                         <p style="white-space: pre-line">{{ hit._source.song_lyrics }}</p>
-                    </div>
-                    <div class="col-md-6">
-
+                        <hr></hr>
                     </div>
                     <span class="clearfix borda"></span>
                 </article>
