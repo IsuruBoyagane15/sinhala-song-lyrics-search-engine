@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang=”en”>
+
+    <head>
+        <meta charset=”utf-8">
+        <link rel=”stylesheet” href=”https://fonts.googleapis.com/css?family=Pacifico">
+        <link rel=”icon” href=”http://obj-cache.cloud.ruanbekker.com/favicon.ico">
+        <link href=”//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css” rel=”stylesheet”>
+        <title>Knowledge Repository Search</title>
+    </head>
+
+    <body>
+        <br/> <br/>
+        <div class=”container”>
+            <form action="http://127.0.0.1:5000/" method="post">
+                    <div class="input-group">
+                        <form action="http://127.0.0.1:5000/" method="post">
+                            <input type="text" class="search_term" name="search_term"  placeholder="Give me a clue about a song?">
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
+                </form>
+
+        {% if hits %}
+            <hgroup class="mb20">
+		        <h1>Search Results</h1>
+		        <h2 class="lead" id="results"><strong class="text-danger">{{ num_results }}</strong> results were found for the search for <strong class="text-danger">{{  query  }}</strong></h2>
+	        </hgroup>
+
+             <section id='song_section' class="col-md-8">
+                {% for hit in hits %}
+                <article class="search-result row">
+                    <div class="col-md-12">
+                        <h3><a href="#" title="">{{ hit._source.title }}</a></h3>
+                        <ul class="meta-search">
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Genre: {{ hit._source.genre }} </span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Artist: {{ hit._source.artist }}</span></li>
+                             <li><i class="glyphicon glyphicon-tags"></i> <span>Music: {{ hit._source.music }}</span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Lyrics: {{ hit._source.lyrics }}</span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Key: {{ hit._source.guitar_key }}</span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Beat: {{ hit._source.beat }}</span></li>
+                        </ul>
+                        <p style="white-space: pre-line">{{ hit._source.song_lyrics }}</p>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                    <span class="clearfix borda"></span>
+                </article>
+                {% endfor %}
+	</section>
+        {% endif %}
+        </div>
+    </body>
+</html>
