@@ -6,7 +6,7 @@
         <link rel=”stylesheet” href=”https://fonts.googleapis.com/css?family=Pacifico">
         <link rel=”icon” href=”http://obj-cache.cloud.ruanbekker.com/favicon.ico">
         <link href=”//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css” rel=”stylesheet”>
-        <title>Knowledge Repository Search</title>
+        <title>සිංහල ගී පද</title>
     </head>
 
     <body>
@@ -33,6 +33,7 @@
                     <div class="col-md-12">
                         <h3><a href="#" title="">{{ hit._source.title }}</a></h3>
                         <ul class="meta-search">
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Title: {{ hit._source.title_si }} </span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Genre: {{ hit._source.genre }} </span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Artist: {{ hit._source.artist }}</span></li>
                              <li><i class="glyphicon glyphicon-tags"></i> <span>Music: {{ hit._source.music }}</span></li>
