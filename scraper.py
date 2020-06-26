@@ -100,7 +100,7 @@ def parse_html_song(html_pg):
     return song
 
 
-def get_song_links():
+def scrape_song_links():
     for page_number in range(5, 17):
         url = 'https://sinhalasongbook.com/all-sinhala-song-lyrics-and-chords/?_page={}/'.format(page_number)
         print('Scraping the URL : ', url)
@@ -124,7 +124,7 @@ def get_song_links():
 
 def scrape_songs():
     next_song = 0
-    while next_song < 20:
+    while next_song < 510:
         print('Scraping song', next_song)
 
         with open('song_links.csv', 'r') as f:
@@ -141,9 +141,9 @@ def scrape_songs():
             json.dump(song, f)
         next_song += 1
 
-        time.sleep(15)
+        time.sleep(20)
 
 
 if __name__ == "__main__":
-    # get_song_links()
+    # scrape_song_links()
     scrape_songs()

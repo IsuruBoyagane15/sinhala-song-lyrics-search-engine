@@ -14,8 +14,8 @@ def index():
 
 
 def create_bulk():
-    for i in range(20):
-        with open("songs/" + str(i) + ".json") as json_file:
+    for i in range(510):
+        with open("processed/" + str(i) + ".json") as json_file:
             json_data = json.load(json_file)
         print(json_data)
         yield {
