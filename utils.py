@@ -21,8 +21,8 @@ def create_bulk():
         yield {
             "_index": INDEX,
             "_source": {
-                "title": json_data['title'],
-                # "title_si": json_data['title_si'],
+                "title_en": json_data['title_en'],
+                "title_si": json_data['title_si'],
                 "artist": json_data['Artist'],
                 "genre": json_data['Genre'],
                 "lyrics": json_data['Lyrics'],

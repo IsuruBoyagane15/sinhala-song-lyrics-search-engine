@@ -25,9 +25,27 @@ def process():
         if "Genre" not in json_data:
             json_data['Genre'] = "Unknown"
 
+        title = json_data["title"]
+        if "–" in title:
+            sep = "–"
+        if "|" in title:
+            sep = "|"
+        if "-" in title:
+            sep = "-"
+
+        title_list = title.split(sep)
+        title_en = title_list[0].strip()
+        title_si = title_list[1].strip()
+
+        json_data['title_en'] = title_en
+        json_data['title_si'] = title_si
+        json_data.pop('title')
+
+        print(title_si,title_en)
 
         with open('processed/' + str(i) + '.json', 'w') as f:
             json.dump(json_data, f)
+
 
 if __name__ == "__main__":
     process()
