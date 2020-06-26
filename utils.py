@@ -14,15 +14,15 @@ def index():
 
 
 def create_bulk():
-    for i in range(5):
+    for i in range(20):
         with open("songs/" + str(i) + ".json") as json_file:
             json_data = json.load(json_file)
         print(json_data)
         yield {
             "_index": INDEX,
             "_source": {
-                "title_en": json_data['title_en'],
-                "title_si": json_data['title_si'],
+                "title": json_data['title'],
+                # "title_si": json_data['title_si'],
                 "artist": json_data['Artist'],
                 "genre": json_data['Genre'],
                 "lyrics": json_data['Lyrics'],
@@ -30,6 +30,8 @@ def create_bulk():
                 "guitar_key": json_data['guitar_key'],
                 "beat": json_data['beat'],
                 "song_lyrics": json_data['song_lyrics'],
+                "number_of_visits": json_data['number_of_visits'],
+                "number_of_shares": json_data['number_of_shares'],
             },
         }
 

@@ -17,7 +17,7 @@ def search_box():
         body = {
             "query":
                 {"match":
-                     {"title_en": query}
+                     {"title": query}
                  }
         }
         response = es_client.search(
@@ -25,10 +25,9 @@ def search_box():
             body=json.dumps(body)
         )
         hits = response['hits']['hits']
-        print(hits)
+
         for i in hits:
             print(i)
-            print(i["_source"])
         num_results = len(hits)
 
         return render_template('index.html', query=query, hits=hits, num_results=num_results)

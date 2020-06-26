@@ -44,19 +44,20 @@ def parse_html_song(html_pg):
     class_list = ["entry-tags", "entry-categories", "entry-author-name", "lyrics", "music"]
     title = soup.find('h1', {"class": "entry-title"}).get_text()
     print(title)
-    if "–" in title:
-        sep = "–"
-    if "-" in title:
-        sep = "-"
-    title_list = title.split(sep)
-    title_en = title_list[0].strip()
-    title_si = title_list[1].strip()
+    # if "–" in title:
+    #     sep = "–"
+    # if "-" in title:
+    #     sep = "-"
+    # title_list = title.split(sep)
+    # title_en = title_list[0].strip()
+    # title_si = title_list[1].strip()
 
-    song.update({'title_en': title_en})
-    song.update({'title_si': title_si})
+    # song.update({'title_en': title_en})
+    # song.update({'title_si': title_si})
+    song.update({'title': title})
 
-    print(title_en)
-    print(title_si)
+    # print(title_en)
+    # print(title_si)
     guit_key = soup.find_all('h3', {'class': None})[0].get_text().split('|')
 
     print(guit_key)
@@ -76,6 +77,12 @@ def parse_html_song(html_pg):
 
     song.update({'guitar_key': guitar_key})
     song.update({'beat': beat})
+
+    number_of_visits = soup.find('div', {'class': 'tptn_counter'}).get_text().split()[1].split('Visits')[0]
+    song.update({'number_of_visits': number_of_visits})
+
+    shares = soup.find('div', {'class': 'nc_tweetContainer swp_share_button total_shares total_sharesalt'}).get_text().split(" ")[0]
+    song.update({'number_of_shares': shares})
 
     for class_l in class_list:
         content = soup.find_all('span', {"class": class_l})
@@ -117,7 +124,7 @@ def get_song_links():
 
 def scrape_songs():
     next_song = 0
-    while next_song < 5:
+    while next_song < 20:
         print('Scraping song', next_song)
 
         with open('song_links.csv', 'r') as f:
