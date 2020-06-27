@@ -33,8 +33,30 @@
                         <h3><a href="#" title="">{{ hit._source.title }}</a></h3>
                         <ul class="meta-search">
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Title: {{ hit._source.title }} </span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Genre: {{ hit._source.genre }} </span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Artist: {{ hit._source.artist }}</span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i>
+                                <span>Genre:
+                                    {% if hit._source.genre  is iterable and hit._source.genre  is not string %}
+                                        {% for genre in hit._source.genre  %}
+                                            {{genre}}
+                                            {% if not loop.last %}
+                                                ,
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {{hit._source.genre}}
+                                    {% endif %}
+                                </span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Artist:
+                                    {% if hit._source.artist  is iterable and hit._source.artist  is not string %}
+                                        {% for artist in hit._source.artist  %}
+                                            {{artist}}
+                                            {% if not loop.last %}
+                                                ,
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {{hit._source.artist}}
+                                    {% endif %}</span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Composed by: {{ hit._source.music }}</span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Lyrics: {{ hit._source.lyrics }}</span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Chords: {{ hit._source.guitar_key }}</span></li>
