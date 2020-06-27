@@ -15,28 +15,11 @@ def search_box():
     print(request)
     if request.method == 'POST':
         query = request.form['search_term']
-        processed_query, fields = process_search_query.process_search_query(query)
-        print('processed query', processed_query)
-        print('boosted fields', fields)
-        body = {
-            "query": {
-                "multi_match": {
-                    "query": processed_query,
-                    "fields": fields,
-                    "operator": 'or',
-                    "type": "best_fields"
-                }
-            }
-        }
-        # body = {
-        #     "query":
-        #         {"match":
-        #              {"title": query}
-        #          }
-        # }
+        query_body = process_search_query.process_search_query(query)
+
         response = es_client.search(
             index=INDEX,
-            body=json.dumps(body)
+            body=json.dumps(query_body)
         )
         hits = response['hits']['hits']
 

@@ -12,7 +12,7 @@ def process_search_query(query):
     possible_keywords["guitar_key"] = ['Minor', 'Major', 'minor', 'major', 'C', 'F', 'G', 'B', 'D', 'A']
     possible_keywords["beat"] = ['beat', 'බීට්', 'රිදම', 'රිදම්', 'රිදමය', 'තාලය', 'තාල']
 
-    possible_keywords["views"] = ['හොඳම', 'ජනප්‍රිය', 'ප්‍රචලිත', 'ප්‍රසිද්ධ', 'හොදම', 'ජනප්‍රියම']
+    possible_keywords["qualitative"] = ['හොඳම', 'ජනප්‍රිය', 'ප්‍රචලිත', 'ප්‍රසිද්ධ', 'ජනප්‍රියම', 'ප්‍රචලිතම' 'ප්‍රචලිතම']
     possible_keywords["shares"] = ['ශෙයා', 'ශෙය', 'බෙදපු', 'ශෙයාර්']
 
     tokens = query.split(" ")
@@ -44,7 +44,7 @@ def process_search_query(query):
 
     # check if beat pattern is present
     for token in tokens:
-        if bool(re.search(r'\d/\d', token)):
+        if bool(re.search(r'\d/\d', token)) or bool(re.search(r'\d-\d', token)):
             boosts['beat'] += 1
 
     boosted_title = "title^{}".format(boosts["title"])
@@ -59,17 +59,70 @@ def process_search_query(query):
     boosted_song_lyrics = "song_lyrics^{}".format(boosts["song_lyrics"])
 
     boost_fields = [
-                    boosted_title,
-                    boosted_artist,
-                    boosted_lyrics,
-                    boosted_music,
-                    boosted_genre,
-                    boosted_guitar_key,
-                    boosted_beat,
-                    # 'number_of_visits', # boosted_number_of_visits,
-                    # 'number_of_shares', # boosted_number_of_shares,
-                    boosted_song_lyrics
+        boosted_title,
+        boosted_artist,
+        boosted_lyrics,
+        boosted_music,
+        boosted_genre,
+        boosted_guitar_key,
+        boosted_beat,
+        # 'number_of_visits',
+        # boosted_number_of_visits,
+        # 'number_of_shares',
+        # boosted_number_of_shares,
+        boosted_song_lyrics
     ]
-    return " ".join(tokens), boost_fields
 
-# process_search_query('ජෝතිපාල කීව  beat සින්දු 6/8')
+    processed_query = " ".join(tokens)
+    print("Processed query :",processed_query)
+    print("Boosted fields :",boost_fields)
+
+    # check for qualitative tokens and numbers to do a range query
+    range_query = False
+    number_token = False
+    for token in tokens:
+        if token in possible_keywords["qualitative"]:
+            range_query = True
+        elif token.isdigit():
+            number_token = True
+            requested_number = int(token)
+
+    # Execute range multi search query sorted based on number_of_views
+    if range_query:
+        if not number_token:
+            requested_number = 10
+        print("Range query from :", processed_query, "number : ", requested_number)
+        body = {
+            "size": requested_number,
+            "sort": [
+                {"number_of_visits": {"order": "desc"}},
+            ],
+            "query": {
+                "multi_match": {
+                    "query": processed_query,
+                    "fields": boost_fields,
+                    "operator": 'or',
+                    "type": "best_fields",
+                    # "fuzziness": "AUTO"
+                }
+            }
+        }
+        return body
+
+    # Execute normal multi search query
+    else:
+        print("Normal multi search query from :", processed_query)
+        body = {
+            "query": {
+                "multi_match": {
+                    "query": processed_query,
+                    "fields": boost_fields,
+                    "operator": 'or',
+                    "type": "best_fields",
+                    # "fuzziness": "AUTO"
+                }
+            }
+        }
+        return body
+
+process_search_query('හොඳම සින්දු 6/8')
