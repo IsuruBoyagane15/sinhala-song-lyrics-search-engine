@@ -17,7 +17,7 @@ def search_box():
         body = {
             "query":
                 {"match":
-                     {"title_si": query}
+                     {"title": query}
                  }
         }
         response = es_client.search(

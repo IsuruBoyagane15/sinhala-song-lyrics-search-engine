@@ -32,14 +32,14 @@
                     <div class="col-md-12">
                         <h3><a href="#" title="">{{ hit._source.title }}</a></h3>
                         <ul class="meta-search">
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Title: {{ hit._source.title_si }} </span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Title: {{ hit._source.title }} </span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Genre: {{ hit._source.genre }} </span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Artist: {{ hit._source.artist }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Music: {{ hit._source.music }}</span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Composed by: {{ hit._source.music }}</span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Lyrics: {{ hit._source.lyrics }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Key: {{ hit._source.guitar_key }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Beat: {{ hit._source.beat }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Visits: {{ hit._source.number_of_visits }}</span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Chords: {{ hit._source.guitar_key }}</span></li>
+<!--                            <li><i class="glyphicon glyphicon-tags"></i> <span>Beat: {{ hit._source.beat }}</span></li>-->
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>Views: {{ hit._source.number_of_visits }}</span></li>
                             <li><i class="glyphicon glyphicon-tags"></i> <span>Shares: {{ hit._source.number_of_shares }}</span></li>
                         </ul>
                         <p style="white-space: pre-line">{{ hit._source.song_lyrics }}</p>

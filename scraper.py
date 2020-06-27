@@ -44,20 +44,6 @@ def parse_html_song(html_pg):
     class_list = ["entry-tags", "entry-categories", "entry-author-name", "lyrics", "music"]
     title = soup.find('h1', {"class": "entry-title"}).get_text()
     print(title)
-    # if "–" in title:
-    #     sep = "–"
-    # if "-" in title:
-    #     sep = "-"
-    # title_list = title.split(sep)
-    # title_en = title_list[0].strip()
-    # title_si = title_list[1].strip()
-
-    # song.update({'title_en': title_en})
-    # song.update({'title_si': title_si})
-    song.update({'title': title})
-
-    # print(title_en)
-    # print(title_si)
     guit_key = soup.find_all('h3', {'class': None})[0].get_text().split('|')
 
     print(guit_key)

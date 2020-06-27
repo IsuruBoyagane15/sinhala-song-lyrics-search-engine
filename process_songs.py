@@ -1,4 +1,34 @@
 import json
+import googletrans
+from googletrans import Translator
+
+
+def fill_missing(song):
+    if "Lyrics" not in song:
+        song['Lyrics'] = "නොදනී"
+
+    if "Music" not in song:
+        song['Music'] = "නොදනී"
+
+    if "Genre" not in song:
+        song['Genre'] = "නොදනී"
+    return song
+
+
+def separate_title(song):
+    title = song["title"]
+    if "–" in title:
+        sep = "–"
+    if "|" in title:
+        sep = "|"
+    if "-" in title:
+        sep = "-"
+
+    title_list = title.split(sep)
+    title_sinhala = title_list[1].strip()
+
+    song['title'] = title_sinhala
+    return song
 
 
 def process():
@@ -14,38 +44,47 @@ def process():
             json_data['Genre'] = json_data["Tags"]
             json_data.pop('Tags')
 
-        # Fill the fields that are not found in original data with "Unknown"
+        # Fill the fields that are not found in original data with "නොදනී"
+        json_data = fill_missing(json_data)
 
-        if "Lyrics" not in json_data:
-            json_data['Lyrics'] = "Unknown"
+        # Separate Sinhala title from title
+        json_data = separate_title(json_data)
 
-        if "Music" not in json_data:
-            json_data['Music'] = "Unknown"
+        # translate relevant fields to Sinhala
+        json_data = translate(json_data)
 
-        if "Genre" not in json_data:
-            json_data['Genre'] = "Unknown"
+        # convert numbers to int
+        json_data['number_of_visits'] = int(json_data['number_of_visits'].replace(',', ''))
+        json_data['number_of_shares'] = int(json_data['number_of_shares'])
 
-        title = json_data["title"]
-        if "–" in title:
-            sep = "–"
-        if "|" in title:
-            sep = "|"
-        if "-" in title:
-            sep = "-"
+        # with open('processed/' + str(i) + '.json', 'w') as f:
+        #     json.dump(json_data, f)
 
-        title_list = title.split(sep)
-        title_en = title_list[0].strip()
-        title_si = title_list[1].strip()
 
-        json_data['title_en'] = title_en
-        json_data['title_si'] = title_si
-        json_data.pop('title')
-
-        print(title_si,title_en)
-
-        with open('processed/' + str(i) + '.json', 'w') as f:
-            json.dump(json_data, f)
+def translate(song):
+    translator = Translator()
+    fields_to_translate = ["Artist", "Music", "Lyrics", "Genre"]
+    for i in fields_to_translate:
+        if type(song[i]) == list:
+            # print(song[i])
+            translated = []
+            for j in song[i]:
+                translated.append(translator.translate(j, dest='sinhala').text)
+            # A fix for unicode error
+            # for k in translated:
+            #     if k == 'චිත්\u200dරපට ගීත':
+            #         translated.remove(k)
+            #         translated.append("චිත්‍රපට ගීත")
+        else:
+            translated = translator.translate(song[i], dest='sinhala').text
+        song[i] = translated
+        print(song[i])
+    print("================")
+    return song
 
 
 if __name__ == "__main__":
     process()
+    # a = "Charitha Attalage"
+    # translator = Translator()
+    # print(translator.translate(a, dest='sinhala').text)
