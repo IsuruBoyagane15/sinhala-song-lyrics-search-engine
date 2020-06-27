@@ -85,6 +85,3 @@ def translate(song):
 
 if __name__ == "__main__":
     process()
-    # a = "Charitha Attalage"
-    # translator = Translator()
-    # print(translator.translate(a, dest='sinhala').text)

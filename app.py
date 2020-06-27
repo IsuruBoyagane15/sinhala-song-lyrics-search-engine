@@ -5,6 +5,8 @@ app = Flask(__name__)
 es_client = Elasticsearch(HOST="http://localhost", PORT=9200)
 import json
 
+import process_search_query
+
 INDEX = 'songs'
 
 
@@ -13,13 +15,25 @@ def search_box():
     print(request)
     if request.method == 'POST':
         query = request.form['search_term']
-        print(query)
+        processed_query, fields = process_search_query.process_search_query(query)
+        print('processed query', processed_query)
+        print('boosted fields', fields)
         body = {
-            "query":
-                {"match":
-                     {"title": query}
-                 }
+            "query": {
+                "multi_match": {
+                    "query": processed_query,
+                    "fields": fields,
+                    "operator": 'or',
+                    "type": "best_fields"
+                }
+            }
         }
+        # body = {
+        #     "query":
+        #         {"match":
+        #              {"title": query}
+        #          }
+        # }
         response = es_client.search(
             index=INDEX,
             body=json.dumps(body)
