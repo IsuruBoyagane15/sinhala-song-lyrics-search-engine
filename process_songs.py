@@ -1,5 +1,5 @@
 import json
-import googletrans
+import re
 from googletrans import Translator
 
 
@@ -37,25 +37,39 @@ def process():
 
     for i in range(510):
         with open("songs/" + str(i) + ".json") as json_file:
-            json_data = json.load(json_file)
+            song = json.load(json_file)
 
         # Rename field named Tags to Genre
-        if "Tags" in json_data:
-            json_data['Genre'] = json_data["Tags"]
-            json_data.pop('Tags')
+        if "Tags" in song:
+            song['Genre'] = song["Tags"]
+            song.pop('Tags')
 
         # Fill the fields that are not found in original data with "නොදනී"
-        json_data = fill_missing(json_data)
+        song = fill_missing(song)
 
         # Separate Sinhala title from title
-        json_data = separate_title(json_data)
+        song = separate_title(song)
 
         # translate relevant fields to Sinhala
-        json_data = translate(json_data)
+        song = translate(song)
 
         # convert numbers to int
-        json_data['number_of_visits'] = int(json_data['number_of_visits'].replace(',', ''))
-        json_data['number_of_shares'] = int(json_data['number_of_shares'])
+        song['number_of_visits'] = int(song['number_of_visits'].replace(',', ''))
+        song['number_of_shares'] = int(song['number_of_shares'])
+
+        # clean song lyrics
+        lyrics = song['song_lyrics']
+        lines = lyrics.split("\n")
+        final = []
+        for i, line in enumerate(lines):
+            line = line.strip()
+            line = re.sub('[.!?\\-—]', '', line)
+            if not line or line.isspace() or '\u200d' in line:
+                pass
+            else:
+                final.append(line)
+        song["song_lyrics"] = "\n".join(final)
+        print(song["song_lyrics"])
 
         # with open('processed/' + str(i) + '.json', 'w') as f:
         #     json.dump(json_data, f)
@@ -70,11 +84,6 @@ def translate(song):
             translated = []
             for j in song[i]:
                 translated.append(translator.translate(j, dest='sinhala').text)
-            # A fix for unicode error
-            # for k in translated:
-            #     if k == 'චිත්\u200dරපට ගීත':
-            #         translated.remove(k)
-            #         translated.append("චිත්‍රපට ගීත")
         else:
             translated = translator.translate(song[i], dest='sinhala').text
         song[i] = translated
