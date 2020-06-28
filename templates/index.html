@@ -3,11 +3,41 @@
 
     <head>
         <meta charset=”utf-8">
-        <link rel=”stylesheet” href=”https://fonts.googleapis.com/css?family=Pacifico">
-        <link rel=”icon” href=”http://obj-cache.cloud.ruanbekker.com/favicon.ico">
-        <link href=”//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css” rel=”stylesheet”>
+<!--        <link rel=”stylesheet” href=”https://fonts.googleapis.com/css?family=Pacifico">-->
+<!--        <link rel=”icon” href=”http://obj-cache.cloud.ruanbekker.com/favicon.ico">-->
+<!--        <link href=”//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css” rel=”stylesheet”>-->
         <title>සිංහල ගී පද</title>
     </head>
+
+    <script>
+	function MyFunction(aggregate){
+		keyword = aggregate.name;
+		console.log("keyword: "+keyword);
+		songs_array = document.getElementsByClassName('search-result row');
+		songs_array = Array.from(songs_array);
+		matching_songs = songs_array.filter(keyword_filter,keyword);
+		len_matching = matching_songs.length;
+		len_original = songs_array.length;
+		section = document.getElementById('song_section');
+		section.innerHTML = matching_songs.map(e => e.outerHTML).join()
+		console.log(section);
+		header = document.getElementById('results');
+		header.innerHTML = `<h2 class="lead" id="results"><strong class="text-danger">${len_matching}</strong> results out of ${len_original} matches the criteria</h2>`;
+
+		var tags_ul = document.getElementById("tags");
+		var tags_li = document.createElement("li");
+		tags_li.setAttribute("style","display:inline-block; padding:15px; margin:10px; border: 2px solid blue; border-radius: 5px;");
+		tags_li.appendChild(document.createTextNode(keyword));
+		tags_ul.appendChild(tags_li);
+	}
+
+	function keyword_filter(element){
+		keyword = this;
+		content = element.innerText;
+		return content.includes(keyword)
+	}
+
+</script>
 
     <body>
         <div class=”container”>
@@ -22,7 +52,6 @@
 
         {% if hits %}
             <hgroup class="mb20">
-		        <h1>Search Results</h1>
 		        <h2 class="lead" id="results"><strong class="text-danger">{{ num_results }}</strong> results were found for the search for <strong class="text-danger">{{  query  }}</strong></h2>
 	        </hgroup>
 
@@ -66,10 +95,30 @@
                         <p style="white-space: pre-line">{{ hit._source.song_lyrics }}</p>
                         <hr></hr>
                     </div>
-                    <span class="clearfix borda"></span>
+<!--                    <span class="clearfix borda"></span>-->
                 </article>
                 {% endfor %}
-	</section>
+                </section>
+                <section class="col-md-4">
+                    {% for key,value in aggs.items() %}
+                        <ul class="meta-search">{{ key }}
+                        {% for bucket in value.buckets %}
+<!--                            <li><a id="myLink" href="#" name="{{ bucket.key }}" >{{ bucket.key }}&lt;!&ndash;( {{ bucket.doc_count }} )&ndash;&gt;</a></li>-->
+        				        <li><a id="myLink" href="#" name="{{ bucket.key }}" onclick="MyFunction(this)" >{{ bucket.key }}<!--( {{ bucket.doc_count }} )--></a></li>
+                        {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </section>
+        {% else %}
+            {% if init %}
+                <hgroup class="mb20">
+                    <h1>Search Sinhala Songs </h1>
+                </hgroup>
+		    {% else %}
+		        <hgroup class="mb20">
+			        <h2 class="lead"> No result found for <strong class="text-danger">{{  query  }}</strong></h2>
+		        </hgroup>
+		    {% endif %}
         {% endif %}
         </div>
     </body>

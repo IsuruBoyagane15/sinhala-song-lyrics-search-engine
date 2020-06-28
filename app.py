@@ -22,12 +22,17 @@ def search_box():
             body=json.dumps(query_body)
         )
         hits = response['hits']['hits']
+        aggregations = response['aggregations']
+        num_results = len(hits)
 
         for i in hits:
             print(i)
-        num_results = len(hits)
 
-        return render_template('index.html', query=query, hits=hits, num_results=num_results)
+        for j in aggregations:
+            print(j)
+        print("number of results found :",num_results)
+
+        return render_template('index.html', query=query, hits=hits, num_results=num_results, aggs=aggregations)
     if request.method == 'GET':
         return render_template('index.html', init='True')
 

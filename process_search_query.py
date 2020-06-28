@@ -91,7 +91,7 @@ def process_search_query(query):
     if range_query:
         if not number_token:
             requested_number = 10
-        print("Range query from :", processed_query, "number : ", requested_number)
+        print("Range query using :", processed_query, "upto : ", requested_number, "results.")
         body = {
             "size": requested_number,
             "sort": [
@@ -104,6 +104,32 @@ def process_search_query(query):
                     "operator": 'or',
                     "type": "best_fields",
                     # "fuzziness": "AUTO"
+                }
+            },
+            "aggs": {
+                "genre_filter": {
+                    "terms": {
+                        "field": "genre.keyword",
+                        "size": 10
+                    }
+                },
+                "music_filter": {
+                    "terms": {
+                        "field": "music.keyword",
+                        "size": 10
+                    }
+                },
+                "artist_filter": {
+                    "terms": {
+                        "field": "artist.keyword",
+                        "size": 10
+                    }
+                },
+                "lyrics_filter": {
+                    "terms": {
+                        "field": "lyrics.keyword",
+                        "size": 10
+                    }
                 }
             }
         }
@@ -121,8 +147,34 @@ def process_search_query(query):
                     "type": "best_fields",
                     # "fuzziness": "AUTO"
                 }
+            },
+            "aggs": {
+                "genre_filter": {
+                    "terms": {
+                        "field": "genre.keyword",
+                        "size": 10
+                    }
+                },
+                "music_filter": {
+                    "terms": {
+                        "field": "music.keyword",
+                        "size": 10
+                    }
+                },
+                "artist_filter": {
+                    "terms": {
+                        "field": "artist.keyword",
+                        "size": 10
+                    }
+                },
+                "lyrics_filter": {
+                    "terms": {
+                        "field": "lyrics.keyword",
+                        "size": 10
+                    }
+                }
             }
         }
         return body
 
-process_search_query('හොඳම සින්දු 6/8')
+# process_search_query('හොඳම සින්දු 6/8')
