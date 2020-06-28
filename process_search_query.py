@@ -25,7 +25,7 @@ def process_search_query(query):
     print("tokens", tokens)
 
     boosts = {}
-    boosts["title"] = 1
+    boosts["title"] = 2
     boosts["artist"] = 1
     boosts["lyrics"] = 1
     boosts["music"] = 1

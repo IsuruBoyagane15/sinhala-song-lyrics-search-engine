@@ -10,30 +10,28 @@
     </head>
 
     <script>
-	function MyFunction(aggregate){
-		keyword = aggregate.name;
-		console.log("keyword: "+keyword);
-		songs_array = document.getElementsByClassName('search-result row');
-		songs_array = Array.from(songs_array);
-		matching_songs = songs_array.filter(keyword_filter,keyword);
-		len_matching = matching_songs.length;
-		len_original = songs_array.length;
-		section = document.getElementById('song_section');
-		section.innerHTML = matching_songs.map(e => e.outerHTML).join()
-		console.log(section);
-		header = document.getElementById('results');
-		header.innerHTML = `<h2 class="lead" id="results"><strong class="text-danger">${len_matching}</strong> results out of ${len_original} matches the criteria</h2>`;
+	function filter(aggregate){
+        const keyword = aggregate.name;
+        let songs = document.getElementsByClassName('search-result-row');
+        const songs_list = Array.from(songs);
+        const filtered = songs_list.filter(keyword_filter, keyword);
+        const filter_count = filtered.length;
+        const unfiltered_count = songs_list.length;
+        const song_section = document.getElementById('song_section');
+        song_section.innerHTML = filtered.map(e => e.outerHTML).join()
+        const header = document.getElementById('results');
+        header.innerHTML = `<h2 class="lead" id="results"><strong class="text-danger">${filter_count}</strong> results out of ${unfiltered_count} matches the criteria</h2>`;
 
-		var tags_ul = document.getElementById("tags");
-		var tags_li = document.createElement("li");
-		tags_li.setAttribute("style","display:inline-block; padding:15px; margin:10px; border: 2px solid blue; border-radius: 5px;");
-		tags_li.appendChild(document.createTextNode(keyword));
-		tags_ul.appendChild(tags_li);
+        const tag_list = document.getElementById("tags");
+        const tag = document.createElement("li");
+        tag.setAttribute("style","display:inline-block; padding:5px; margin:10px; border: 2px solid black; border-radius: 5px;");
+		tag.appendChild(document.createTextNode(keyword));
+		tag_list.appendChild(tag);
 	}
 
 	function keyword_filter(element){
-		keyword = this;
-		content = element.innerText;
+        const keyword = this;
+        content = element.innerText;
 		return content.includes(keyword)
 	}
 
@@ -44,25 +42,24 @@
             <form action="http://127.0.0.1:5000/" method="post">
                 <div class="input-group">
                     <form action="http://127.0.0.1:5000/" method="post">
-                        <input type="text" class="search_term" name="search_term"  placeholder="Give me a clue about a song?">
+                        <input type="text" class="search_term" name="search_term"  placeholder="What do you want to search?">
                         <input type="submit" value="Submit">
                     </form>
                 </div>
             </form>
 
         {% if hits %}
-            <hgroup class="mb20">
-		        <h2 class="lead" id="results"><strong class="text-danger">{{ num_results }}</strong> results were found for the search for <strong class="text-danger">{{  query  }}</strong></h2>
-	        </hgroup>
+            <h2 id="results"><i>{{ num_results }}</i> results were found for "<i>{{  query  }}</i>"</h2>
+            <h4><span>Tags: </span><ul id="tags" style="display: inline-block"></ul></h4>
 
-             <section id='song_section' class="col-md-8">
+             <section id='song_section'>
                 {% for hit in hits %}
-                <article class="search-result row">
-                    <div class="col-md-12">
+                <article class="search-result-row">
+                    <div>
                         <h3>{{ hit._source.title }}</h3>
-                        <ul class="meta-search">
-                            <li><i class="glyphicon glyphicon-tags"></i>
-                                <span>Genre:
+                        <ul>
+                            <li>
+                                Genre:
                                     {% if hit._source.genre  is iterable and hit._source.genre  is not string %}
                                         {% for genre in hit._source.genre  %}
                                             {{genre}}
@@ -73,8 +70,9 @@
                                     {% else %}
                                         {{hit._source.genre}}
                                     {% endif %}
-                                </span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Artist:
+                                </li>
+                            <li>
+                                Artist:
                                     {% if hit._source.artist  is iterable and hit._source.artist  is not string %}
                                         {% for artist in hit._source.artist  %}
                                             {{artist}}
@@ -84,39 +82,36 @@
                                         {% endfor %}
                                     {% else %}
                                         {{hit._source.artist}}
-                                    {% endif %}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Composed by: {{ hit._source.music }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Lyrics: {{ hit._source.lyrics }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Chords: {{ hit._source.guitar_key }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Beat: {{ hit._source.beat }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Views: {{ hit._source.number_of_visits }}</span></li>
-                            <li><i class="glyphicon glyphicon-tags"></i> <span>Shares: {{ hit._source.number_of_shares }}</span></li>
+                                    {% endif %}
+                            </li>
+                            <li>Composed by: {{ hit._source.music }}</li>
+                            <li>Lyrics: {{ hit._source.lyrics }}</li>
+                            <li>Chords: {{ hit._source.guitar_key }}</li>
+                            <li>Beat: {{ hit._source.beat }}</span></li>
+                            <li>Views: {{ hit._source.number_of_visits }}</li>
+                            <li>Shares: {{ hit._source.number_of_shares }}</li>
                         </ul>
                         <p style="white-space: pre-line">{{ hit._source.song_lyrics }}</p>
-                        <hr></hr>
+                        <hr>
                     </div>
-<!--                    <span class="clearfix borda"></span>-->
                 </article>
                 {% endfor %}
                 </section>
-                <section class="col-md-4">
+                <section>
                     {% for key,value in aggs.items() %}
-                        <ul class="meta-search">{{ key }}
+                        <ul>{{ key }}
                         {% for bucket in value.buckets %}
-<!--                            <li><a id="myLink" href="#" name="{{ bucket.key }}" >{{ bucket.key }}&lt;!&ndash;( {{ bucket.doc_count }} )&ndash;&gt;</a></li>-->
-        				        <li><a id="myLink" href="#" name="{{ bucket.key }}" onclick="MyFunction(this)" >{{ bucket.key }}<!--( {{ bucket.doc_count }} )--></a></li>
+                            <li><a href="#" name="{{ bucket.key }}" onclick="filter(this)" >{{ bucket.key }}</a></li>
                         {% endfor %}
                         </ul>
                     {% endfor %}
                 </section>
         {% else %}
             {% if init %}
-                <hgroup class="mb20">
                     <h1>Search Sinhala Songs </h1>
-                </hgroup>
 		    {% else %}
-		        <hgroup class="mb20">
-			        <h2 class="lead"> No result found for <strong class="text-danger">{{  query  }}</strong></h2>
+		        <hgroup>
+			        <h2>No result found for <i>{{  query  }}</i></h2>
 		        </hgroup>
 		    {% endif %}
         {% endif %}
