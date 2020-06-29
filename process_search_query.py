@@ -34,13 +34,13 @@ def process_search_query(query):
     boosts['beat'] = 1
     boosts['number_of_visits'] = 1
     boosts['number_of_shares'] = 1
-    boosts['song_lyrics'] = 1
+    boosts['song_lyrics'] = 2
 
     # increment boosts if keywords related to the field is in tokens
     for token in tokens:
         for field in possible_keywords.keys():
             if token in possible_keywords[field]:
-                boosts[field] = 2
+                boosts[field] = 3
 
     # check if beat pattern is present
     for token in tokens:
