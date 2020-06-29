@@ -118,7 +118,13 @@ configs = {
                 "search_analyzer": "sinhala-search"
             },
             "guitar_key": {
-                "type": "text"
+                "type": "text",
+                "fields": {
+                        "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                        },
+                },
             },
             "beat": {
                 "type": "text",

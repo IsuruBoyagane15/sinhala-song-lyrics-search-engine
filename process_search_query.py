@@ -107,27 +107,39 @@ def process_search_query(query):
                 }
             },
             "aggs": {
-                "genre_filter": {
+                "Genre": {
                     "terms": {
                         "field": "genre.keyword",
                         "size": 10
                     }
                 },
-                "music_filter": {
+                "Music": {
                     "terms": {
                         "field": "music.keyword",
                         "size": 10
                     }
                 },
-                "artist_filter": {
+                "Artist": {
                     "terms": {
                         "field": "artist.keyword",
                         "size": 10
                     }
                 },
-                "lyrics_filter": {
+                "Lyricist": {
                     "terms": {
                         "field": "lyrics.keyword",
+                        "size": 10
+                    }
+                },
+                "Beat": {
+                    "terms": {
+                        "field": "beat.keyword",
+                        "size": 10
+                    }
+                },
+                "Guitar Key": {
+                    "terms": {
+                        "field": "guitar_key.keyword",
                         "size": 10
                     }
                 }
@@ -149,27 +161,39 @@ def process_search_query(query):
                 }
             },
             "aggs": {
-                "genre_filter": {
+                "Genre": {
                     "terms": {
                         "field": "genre.keyword",
                         "size": 10
                     }
                 },
-                "music_filter": {
+                "Music": {
                     "terms": {
                         "field": "music.keyword",
                         "size": 10
                     }
                 },
-                "artist_filter": {
+                "Artist": {
                     "terms": {
                         "field": "artist.keyword",
                         "size": 10
                     }
                 },
-                "lyrics_filter": {
+                "Lyricist": {
                     "terms": {
                         "field": "lyrics.keyword",
+                        "size": 10
+                    }
+                },
+                "Beat": {
+                    "terms": {
+                        "field": "beat.keyword",
+                        "size": 10
+                    }
+                },
+                "Guitar Key": {
+                    "terms": {
+                        "field": "guitar_key.keyword",
                         "size": 10
                     }
                 }
