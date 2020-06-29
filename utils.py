@@ -36,10 +36,10 @@ configs = {
                     "tokenizer": "standard",
                     "char_filter": ["punc_char_filter"]
                 },
-                "beat-search": {
-                    "type": "custom",
-                    "tokenizer": "standard",
-                },
+                # "beat-search": {
+                #     "type": "custom",
+                #     "tokenizer": "standard",
+                # },
             },
             "char_filter": {
                 "punc_char_filter": {
@@ -134,8 +134,8 @@ configs = {
                             "ignore_above": 256
                         },
                 },
-                "analyzer" : "english",
-                "search_analyzer": "beat-search"
+                # "analyzer" : "english",
+                # "search_analyzer": "beat-search"
             },
             "song_lyrics": {
                 "type": "text",

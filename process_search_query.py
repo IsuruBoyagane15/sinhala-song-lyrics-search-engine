@@ -12,7 +12,7 @@ def process_search_query(query):
     possible_keywords["guitar_key"] = ['minor', 'major', 'c', 'f', 'g', 'b', 'd', 'a', 'bb', 'ab']
     possible_keywords["beat"] = ['beat', 'බීට්', 'රිදම', 'රිදම්', 'රිදමය', 'තාලය', 'තාල']
 
-    possible_keywords["qualitative"] = ['හොඳම', 'ජනප්‍රිය', 'ප්‍රචලිත', 'ප්‍රසිද්ධ', 'ජනප්‍රියම', 'ප්‍රචලිතම' 'ප්‍රචලිතම']
+    possible_keywords["qualitative"] = ['හොදම'  'හොඳම', 'ජනප්‍රිය', 'ප්‍රචලිත', 'ප්‍රසිද්ධ', 'ජනප්‍රියම', 'ප්‍රචලිතම' 'ප්‍රචලිතම']
     possible_keywords["shares"] = ['ශෙයා', 'ශෙය', 'බෙදපු', 'ශෙයාර්']
 
     tokens = query.split(" ")
