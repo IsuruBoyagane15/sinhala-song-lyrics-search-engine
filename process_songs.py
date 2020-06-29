@@ -43,6 +43,18 @@ def clean_beat(song):
         song['beat'] = "නොදනී"
     return song
 
+def remove_dots_in_names(song):
+    names = ["Artist", "Music", "Lyrics"]
+    for i in names:
+        field = song[i]
+        if type(field) == type([]):
+            for j in range(len(field)):
+                field[j] = field[j].replace(".", " ")
+        else:
+            field = field.replace(".", " ")
+        song.update({i:field})
+    return song
+
 
 def clean_lyrics(song):
     lyrics = song['song_lyrics']
@@ -76,6 +88,9 @@ def process():
         # Fill the fields that are not found in original data with "නොදනී"
         song = fill_missing(song)
 
+        # remplace dots in names by space
+        song = remove_dots_in_names(song)
+
         # Separate Sinhala title from title
         song = separate_title(song)
 
@@ -93,7 +108,7 @@ def process():
         song = clean_lyrics(song)
 
         print(song)
-        time.sleep(10)
+        # time.sleep(10)
 
         with open('processed/' + str(i) + '.json', 'w') as f:
             json.dump(song, f)
@@ -121,3 +136,4 @@ def translate(song):
 
 if __name__ == "__main__":
     process()
+
