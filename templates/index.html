@@ -9,6 +9,7 @@
     <script>
 	function filter(aggregate){
         const keyword = aggregate.name;
+        console.log(keyword)
         let songs = document.getElementsByClassName('search-result-row');
         const songs_list = Array.from(songs);
         const filtered = songs_list.filter(keyword_filter, keyword);
@@ -103,7 +104,9 @@
                     {% for key,value in aggs.items() %}
                         <ul>{{ key }}
                         {% for bucket in value.buckets %}
+                            {% if not bucket.key == "" %}
                             <li><a href="#" name="{{ bucket.key }}" onclick="filter(this)" >{{ bucket.key }}</a></li>
+                            {% endif %}
                         {% endfor %}
                         </ul>
                     {% endfor %}
