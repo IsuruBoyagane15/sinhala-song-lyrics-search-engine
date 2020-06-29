@@ -2,36 +2,36 @@ import time
 import json
 import re
 from googletrans import Translator
-
-
 # import mtranslate
 
 
 def fill_missing(song):
-    if "Lyrics" not in song:
-        song['Lyrics'] = "නොදනී"
+    if "Lyrics" not in song or song["Lyrics"] == "නොදන්නා":
+        song['Lyrics'] = "N/A"
 
-    if "Music" not in song:
-        song['Music'] = "නොදනී"
+    if "Music" not in song  or song["Music"] == "නොදන්නා":
+        song['Music'] = "N/A"
 
-    if "Genre" not in song:
-        song['Genre'] = "නොදනී"
+    if "Genre" not in song  or song["Genre"] == "නොදන්නා":
+        song['Genre'] = "N/A"
     return song
 
 
 def separate_title(song):
     title = song["title"]
-    if "–" in title:
-        sep = "–"
-    if "|" in title:
-        sep = "|"
-    if "-" in title:
-        sep = "-"
+    for i in title:
+        if i == "–":
+            sep = "–"
+        if i == "|":
+            sep = "|"
+        if i == "-":
+            sep = "-"
 
     title_list = title.split(sep)
-    title_sinhala = title_list[1].strip()
+    title_sinhala = title_list[-1].strip()
 
     song['title'] = title_sinhala
+    print(song['title'])
     return song
 
 
@@ -40,7 +40,7 @@ def clean_beat(song):
     if type(beat) == type([]):
         song['beat'] = beat[0].strip().split(" ", 1)[1]
     elif beat == "N/A":
-        song['beat'] = "නොදනී"
+        song['beat'] = "N/A"
     return song
 
 def remove_dots_in_names(song):
@@ -107,8 +107,10 @@ def process():
         # clean song lyrics
         song = clean_lyrics(song)
 
-        print(song)
-        # time.sleep(10)
+        song["guitar_key"] = song["guitar_key"].lower()
+
+        time.sleep(10)
+
 
         with open('processed/' + str(i) + '.json', 'w') as f:
             json.dump(song, f)

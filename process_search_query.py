@@ -9,7 +9,7 @@ def process_search_query(query):
     possible_keywords["music"] = ['සංගීත', 'තනු', 'තනුව', 'සංගීතය', 'සංගීතවත්']
     possible_keywords["genre"] = ['කැලිප්සෝ', 'වත්මන්', 'චිත්‍රපට', 'පොප්', 'දේවානුභාවයෙන්', 'රන්', 'පැරණි', 'රන්වන්',
                                   'පොප්', 'කණ්ඩායම්', 'යුගල', 'අලුත්', 'නව', 'පැරණි', 'පොප්ස්']
-    possible_keywords["guitar_key"] = ['Minor', 'Major', 'minor', 'major', 'C', 'F', 'G', 'B', 'D', 'A']
+    possible_keywords["guitar_key"] = ['minor', 'major', 'c', 'f', 'g', 'b', 'd', 'a', 'bb', 'ab']
     possible_keywords["beat"] = ['beat', 'බීට්', 'රිදම', 'රිදම්', 'රිදමය', 'තාලය', 'තාල']
 
     possible_keywords["qualitative"] = ['හොඳම', 'ජනප්‍රිය', 'ප්‍රචලිත', 'ප්‍රසිද්ධ', 'ජනප්‍රියම', 'ප්‍රචලිතම' 'ප්‍රචලිතම']
@@ -54,8 +54,6 @@ def process_search_query(query):
     boosted_genre = "genre^{}".format(boosts["genre"])
     boosted_guitar_key = "guitar_key^{}".format(boosts["guitar_key"])
     boosted_beat = "beat^{}".format(boosts["beat"])
-    boosted_number_of_visits = "number_of_visits^{}".format(boosts["number_of_visits"])
-    boosted_number_of_shares = "number_of_shares^{}".format(boosts["number_of_shares"])
     boosted_song_lyrics = "song_lyrics^{}".format(boosts["song_lyrics"])
 
     boost_fields = [
