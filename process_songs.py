@@ -7,13 +7,13 @@ from googletrans import Translator
 
 def fill_missing(song):
     if "Lyrics" not in song or song["Lyrics"] == "නොදන්නා":
-        song['Lyrics'] = "N/A"
+        song['Lyrics'] = ""
 
     if "Music" not in song  or song["Music"] == "නොදන්නා":
-        song['Music'] = "N/A"
+        song['Music'] = ""
 
     if "Genre" not in song  or song["Genre"] == "නොදන්නා":
-        song['Genre'] = "N/A"
+        song['Genre'] = ""
     return song
 
 
@@ -40,7 +40,7 @@ def clean_beat(song):
     if type(beat) == type([]):
         song['beat'] = beat[0].strip().split(" ", 1)[1]
     elif beat == "N/A":
-        song['beat'] = "N/A"
+        song['beat'] = ""
     return song
 
 def remove_dots_in_names(song):
@@ -107,10 +107,12 @@ def process():
         # clean song lyrics
         song = clean_lyrics(song)
 
-        song["guitar_key"] = song["guitar_key"].lower()
+        # process guitar_key
+        if type(song["guitar_key"]) == type([]):
+            song["guitar_key"] = song["guitar_key"][-1]
+        song["guitar_key"] = song["guitar_key"].strip().lower()
 
-        time.sleep(10)
-
+        # time.sleep(10)
 
         with open('processed/' + str(i) + '.json', 'w') as f:
             json.dump(song, f)
@@ -138,4 +140,7 @@ def translate(song):
 
 if __name__ == "__main__":
     process()
-
+    # for i in range(510):
+    #     with open("processed/" + str(i) + ".json") as json_file:
+    #         song = json.load(json_file)
+    #     print(song["Genre"])
