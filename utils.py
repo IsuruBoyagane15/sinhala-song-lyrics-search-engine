@@ -9,6 +9,7 @@ INDEX = 'songs'
 def index():
     songs_index = Index(INDEX, using=es_client)
     res = songs_index.create()
+    print(res)
     helpers.bulk(es_client, create_bulk())
     print(res)
 
@@ -22,16 +23,15 @@ def create_bulk():
             "_index": INDEX,
             "_source": {
                 "title": json_data['title'],
-                # "title_si": json_data['title_si'],
                 "artist": json_data['Artist'],
                 "genre": json_data['Genre'],
                 "lyrics": json_data['Lyrics'],
                 "music": json_data['Music'],
                 "guitar_key": json_data['guitar_key'],
                 "beat": json_data['beat'],
-                "song_lyrics": json_data['song_lyrics'],
                 "number_of_visits": json_data['number_of_visits'],
                 "number_of_shares": json_data['number_of_shares'],
+                "song_lyrics": json_data['song_lyrics'],
             },
         }
 

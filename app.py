@@ -4,11 +4,9 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 es_client = Elasticsearch(HOST="http://localhost", PORT=9200)
 import json
-
 import process_search_query
 
 INDEX = 'songs'
-
 
 @app.route('/', methods=['POST', 'GET'])
 def search_box():
@@ -30,7 +28,8 @@ def search_box():
 
         for j in aggregations:
             print(j)
-        print("number of results found :",num_results)
+
+        print("number of results found :", num_results)
 
         return render_template('index.html', query=query, hits=hits, num_results=num_results, aggs=aggregations)
     if request.method == 'GET':

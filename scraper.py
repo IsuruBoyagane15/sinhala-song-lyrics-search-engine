@@ -131,5 +131,6 @@ def scrape_songs():
 
 
 if __name__ == "__main__":
-    # scrape_song_links()
+    if not os.path.exists('song_links.csv'):
+        scrape_song_links()
     scrape_songs()

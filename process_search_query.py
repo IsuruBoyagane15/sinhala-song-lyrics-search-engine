@@ -87,7 +87,7 @@ def process_search_query(query):
             number_token = True
             requested_number = int(token)
 
-    # Execute range multi search query sorted based on number_of_views
+    # Execute sorted range multi search query based on number_of_views
     if range_query:
         if not number_token:
             requested_number = 10
