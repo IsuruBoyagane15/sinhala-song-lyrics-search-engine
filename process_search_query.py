@@ -103,7 +103,7 @@ def process_search_query(query):
                     "fields": boost_fields,
                     "operator": 'or',
                     "type": "best_fields",
-                    # "fuzziness": "AUTO"
+                    "fuzziness": "AUTO"
                 }
             },
             "aggs": {
@@ -145,7 +145,7 @@ def process_search_query(query):
                     "fields": boost_fields,
                     "operator": 'or',
                     "type": "best_fields",
-                    # "fuzziness": "AUTO"
+                    "fuzziness": "AUTO"
                 }
             },
             "aggs": {

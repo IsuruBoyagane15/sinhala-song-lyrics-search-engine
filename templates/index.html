@@ -3,9 +3,6 @@
 
     <head>
         <meta charset=”utf-8">
-<!--        <link rel=”stylesheet” href=”https://fonts.googleapis.com/css?family=Pacifico">-->
-<!--        <link rel=”icon” href=”http://obj-cache.cloud.ruanbekker.com/favicon.ico">-->
-<!--        <link href=”//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css” rel=”stylesheet”>-->
         <title>සිංහල ගී පද</title>
     </head>
 
@@ -22,6 +19,8 @@
         const header = document.getElementById('results');
         header.innerHTML = `<h2 class="lead" id="results"><strong class="text-danger">${filter_count}</strong> results out of ${unfiltered_count} matches the criteria</h2>`;
 
+        const filter_heading = document.getElementById("filter_head");
+        filter_heading.style.display = "inline-block"
         const tag_list = document.getElementById("tags");
         const tag = document.createElement("li");
         tag.setAttribute("style","display:inline-block; padding:5px; margin:10px; border: 2px solid black; border-radius: 5px;");
@@ -38,6 +37,9 @@
 </script>
 
     <body>
+        {% if init %}
+            <h1>Search Sinhala Songs </h1>
+        {% endif %}
         <div class=”container”>
             <form action="http://127.0.0.1:5000/" method="post">
                 <div class="input-group">
@@ -50,7 +52,7 @@
 
         {% if hits %}
             <h2 id="results"><i>{{ num_results }}</i> results were found for "<i>{{  query  }}</i>"</h2>
-            <h4><span>Tags: </span><ul id="tags" style="display: inline-block"></ul></h4>
+            <h4><span style="display: none" id = "filter_head">Filtered by: </span><ul id="tags" style="display: inline-block"></ul></h4>
 
              <section id='song_section'>
                 {% for hit in hits %}
@@ -106,14 +108,10 @@
                         </ul>
                     {% endfor %}
                 </section>
-        {% else %}
-            {% if init %}
-                    <h1>Search Sinhala Songs </h1>
-		    {% else %}
-		        <hgroup>
-			        <h2>No result found for <i>{{  query  }}</i></h2>
-		        </hgroup>
-		    {% endif %}
+        {% elif not init %}
+            <hgroup>
+                <h2>No result found for <i>{{  query  }}</i></h2>
+            </hgroup>
         {% endif %}
         </div>
     </body>
