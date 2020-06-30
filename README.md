@@ -23,7 +23,7 @@ Each song contains the following data fields.
 * Search lyrics – වැසි වැටී වැව් ළිං 
 * Faceted Search 
     - ෂෙල්ටන් පෙරේරා  තනුව කල ගීත
-    - ක්ලැරන්ස් විජේවර්ධන ගායනා පැරණි පොප් සින්දු
+    - ක්ලැරන්ස් විජේවර්ධන ගායනා කල පැරණි පොප් සින්දු
 * Sorted Range Queries 
     - ජනප්‍රියම සින්දු 6
     - ජනප්‍රියම 6/8 සින්දු 5
