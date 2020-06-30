@@ -3,7 +3,7 @@ import re
 
 def process_search_query(query):
     possible_keywords = {}
-    possible_keywords["artist"] = ['ගායකයා', 'ගයනවා', 'ගායනා', 'කීව', 'ගැයු', 'ගයන', 'ගයප', 'කියපු', 'කියන']
+    possible_keywords["artist"] = ['ගායකයා', 'ගයනවා', 'ගායනා', 'ගැයු', 'ගයන', 'ගයපු', 'කියපු', 'කියන']
     possible_keywords["lyrics"] = ['පද', 'රචනය', 'රචකයා', 'ලියන', 'ලීව', 'රචිත', 'ලියපු', 'ලිව්‌ව', 'රචනා', 'රචක',
                                    'ලියපු']
     possible_keywords["music"] = ['සංගීත', 'තනු', 'තනුව', 'සංගීතය', 'සංගීතවත්']

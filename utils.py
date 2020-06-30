@@ -164,8 +164,8 @@ def index():
     # res = songs_index.create()
 
     res = es_client.indices.create(index=INDEX, body=configs)
-
     print(res)
+
     helpers.bulk(es_client, create_bulk())
     print(res)
 

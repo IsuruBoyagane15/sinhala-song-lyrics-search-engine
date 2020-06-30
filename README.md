@@ -16,10 +16,15 @@ Each song contains the following data fields.
 
 ## Main Usecases
 
-* Search title – මාගෙ මතකේ ඔබේ
+* Search by title/ beat/ guitar key etc. 
+    - මාගෙ මතකේ ඔබේ
+    - f major සින්දු
+    - චිත්‍රපට ගීත
 * Search lyrics – වැසි වැටී වැව් ළිං 
-* Faceted Search – ක්ලැරන්ස් විජේවර්ධන ගායනා පැරණි පොප් සින්දු
+* Faceted Search 
+    - ෂෙල්ටන් පෙරේරා  තනුව කල ගීත
+    - ක්ලැරන්ස් විජේවර්ධන ගායනා පැරණි පොප් සින්දු
 * Sorted Range Queries 
     - ජනප්‍රියම සින්දු 6
     - ජනප්‍රියම 6/8 සින්දු 5
-    - එඩ්වඩ් ජයකොඩි ගායනා කල ජනප්‍රියම සින්දු 10
+    - එඩ්වඩ් ජයකොඩි ගායනා කල ජනප්‍රියම සින්දු 5
