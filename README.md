@@ -1,8 +1,9 @@
-# sinhala-song-lyrics-search-engine
+# Sinhala song lyrics search engine
 
-## Data
+## Lyrics and metadata
 
-Each song contains the following data fields.
+Following 9 metadata with the song lyrics fo 510 songs are used to create the index in Elasticsearch.
+
 1. Title
 2. Artist
 3. Genre
@@ -12,19 +13,32 @@ Each song contains the following data fields.
 7. Beat
 8. Number of views
 9. Number of shares
-10. Song lyrics
+
+## Data
+- Original data directory - songs/
+- Processed data directory - processed/
 
 ## Main Usecases
 
 * Search by title/ beat/ guitar key etc. 
     - මාගෙ මතකේ ඔබේ
-    - f major සින්දු
+    - 6/8 සින්දු
     - චිත්‍රපට ගීත
-* Search lyrics – වැසි වැටී වැව් ළිං 
-* Faceted Search 
-    - ෂෙල්ටන් පෙරේරා  තනුව කල ගීත
+* Search lyrics
+    - වැසි වැටී වැව් ළිං 
+* Multi Search 
+    - ෂෙල්ටන් පෙරේරා තනුව කල ගීත
     - ක්ලැරන්ස් විජේවර්ධන ගායනා කල පැරණි පොප් සින්දු
 * Sorted Range Queries 
     - ජනප්‍රියම සින්දු
     - ජනප්‍රියම 6/8 සින්දු 5
     - එඩ්වඩ් ජයකොඩි ගායනා කල ජනප්‍රියම සින්දු 5
+* Filtering search results based on keywords (faceted search)
+
+## Indexing techniques
+
+Elasticsearch analysers are used in indexing.
+
+## Qurying Procedure
+
+![Alt text](querying_procedure.png?raw=true "Title")
