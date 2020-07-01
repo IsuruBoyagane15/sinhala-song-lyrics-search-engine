@@ -15,7 +15,7 @@ def process_search_query(query):
     possible_keywords["qualitative"] = ['හොදම'  'හොඳම', 'ජනප්‍රිය', 'ප්‍රචලිත', 'ප්‍රසිද්ධ', 'ජනප්‍රියම', 'ප්‍රචලිතම' 'ප්‍රචලිතම']
     possible_keywords["shares"] = ['ශෙයා', 'ශෙය', 'බෙදපු', 'ශෙයාර්']
 
-    tokens = query.split(" ")
+    tokens = query.strip().split(" ")
 
     frequent_words = ['ගීත', 'සින්දු', 'ගී', 'ගීය', 'ගීතය', 'සින්දුව']
     # Drop more frequent words from token list
@@ -40,7 +40,7 @@ def process_search_query(query):
     for token in tokens:
         for field in possible_keywords.keys():
             if token in possible_keywords[field]:
-                boosts[field] = 3
+                boosts[field] = 4
 
     # check if beat pattern is present
     for token in tokens:
@@ -64,10 +64,6 @@ def process_search_query(query):
         boosted_genre,
         boosted_guitar_key,
         boosted_beat,
-        # 'number_of_visits',
-        # boosted_number_of_visits,
-        # 'number_of_shares',
-        # boosted_number_of_shares,
         boosted_song_lyrics
     ]
 
@@ -198,5 +194,3 @@ def process_search_query(query):
             }
         }
         return body
-
-# process_search_query('හොඳම සින්දු 6/8')

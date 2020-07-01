@@ -5,6 +5,7 @@ import json
 es_client = Elasticsearch(HOST="http://localhost", PORT=9200)
 INDEX = 'songs'
 
+# define mappings and configs
 configs = {
     "settings": {
         "index": {
@@ -36,10 +37,6 @@ configs = {
                     "tokenizer": "standard",
                     "char_filter": ["punc_char_filter"]
                 },
-                # "beat-search": {
-                #     "type": "custom",
-                #     "tokenizer": "standard",
-                # },
             },
             "char_filter": {
                 "punc_char_filter": {
@@ -134,8 +131,6 @@ configs = {
                             "ignore_above": 256
                         },
                 },
-                # "analyzer" : "english",
-                # "search_analyzer": "beat-search"
             },
             "song_lyrics": {
                 "type": "text",
@@ -160,9 +155,6 @@ configs = {
 
 
 def index():
-    # songs_index = Index(INDEX, using=es_client)
-    # res = songs_index.create()
-
     res = es_client.indices.create(index=INDEX, body=configs)
     print(res)
 

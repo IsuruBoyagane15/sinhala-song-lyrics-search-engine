@@ -1,8 +1,6 @@
 from bs4 import BeautifulSoup
 import requests, time, os
 import json, re
-from lxml import etree
-import pandas as pd
 
 def process_content(key_val_pair):
     if key_val_pair:
@@ -24,7 +22,7 @@ def process_content(key_val_pair):
     else:
         return None, None
 
-
+# parse lyrics
 def parse_lyrics(lyrics):
     space_set = set([' '])
     processed = ''
@@ -37,7 +35,7 @@ def parse_lyrics(lyrics):
             processed += new + '\n'
     return processed
 
-
+# parse song html page
 def parse_html_song(html_pg):
     soup = BeautifulSoup(html_pg, 'html.parser')
     song = {}
@@ -85,7 +83,7 @@ def parse_html_song(html_pg):
     print("=======================================================")
     return song
 
-
+# get links of songs to be scraped
 def scrape_song_links():
     for page_number in range(5, 17):
         url = 'https://sinhalasongbook.com/all-sinhala-song-lyrics-and-chords/?_page={}/'.format(page_number)
@@ -102,18 +100,18 @@ def scrape_song_links():
             link = tag.get('href')
             links.append(link)
 
-        with open('song_links.csv', 'a') as f:
+        with open('urls.csv', 'a') as f:
             for link in links:
                 f.write(link + os.linesep)
         time.sleep(10)
 
-
+# scrape song links in the urls.csv
 def scrape_songs():
     next_song = 0
     while next_song < 510:
         print('Scraping song', next_song)
 
-        with open('song_links.csv', 'r') as f:
+        with open('urls.csv', 'r') as f:
             lines = f.readlines()
         url = lines[next_song]
 
@@ -131,6 +129,6 @@ def scrape_songs():
 
 
 if __name__ == "__main__":
-    if not os.path.exists('song_links.csv'):
+    if not os.path.exists('urls.csv'):
         scrape_song_links()
     scrape_songs()

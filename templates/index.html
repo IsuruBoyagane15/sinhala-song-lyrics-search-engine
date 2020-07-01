@@ -8,18 +8,22 @@
 
     <script>
 	function filter(aggregate){
+	    // filter results based on keyword clicked
         const keyword = aggregate.name;
-        console.log(keyword)
         let songs = document.getElementsByClassName('search-result-row');
         const songs_list = Array.from(songs);
         const filtered = songs_list.filter(keyword_filter, keyword);
-        const filter_count = filtered.length;
+
         const unfiltered_count = songs_list.length;
+        const filter_count = filtered.length;
+
+        // Update UI based on new results
         const song_section = document.getElementById('song_section');
         song_section.innerHTML = filtered.map(e => e.outerHTML).join()
         const header = document.getElementById('results');
         header.innerHTML = `<h2 class="lead" id="results"><strong class="text-danger">${filter_count}</strong> results out of ${unfiltered_count} matches the criteria</h2>`;
 
+        // Update filter list displayed on top of the web page
         const filter_heading = document.getElementById("filter_head");
         filter_heading.style.display = "inline-block"
         const tag_list = document.getElementById("tags");
@@ -29,6 +33,7 @@
 		tag_list.appendChild(tag);
 	}
 
+    // filtering based on keyword
 	function keyword_filter(element){
         const keyword = this;
         content = element.innerText;
@@ -101,6 +106,7 @@
                 {% endfor %}
                 </section>
                 <section>
+<!--                    filtering functionality based on faceted search-->
                     {% for key,value in aggs.items() %}
                         <ul>{{ key }}
                         {% for bucket in value.buckets %}

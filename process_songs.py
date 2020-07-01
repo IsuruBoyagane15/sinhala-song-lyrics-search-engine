@@ -1,22 +1,22 @@
-import time
 import json
 import re
 from googletrans import Translator
-# import mtranslate
 
 
+# Fill missing valies by ""
 def fill_missing(song):
     if "Lyrics" not in song or song["Lyrics"] == "නොදන්නා":
         song['Lyrics'] = ""
 
-    if "Music" not in song  or song["Music"] == "නොදන්නා":
+    if "Music" not in song or song["Music"] == "නොදන්නා":
         song['Music'] = ""
 
-    if "Genre" not in song  or song["Genre"] == "නොදන්නා":
+    if "Genre" not in song or song["Genre"] == "නොදන්නා":
         song['Genre'] = ""
     return song
 
 
+# seperate title content to sonhala and english and extract sinhala title
 def separate_title(song):
     title = song["title"]
     for i in title:
@@ -35,6 +35,7 @@ def separate_title(song):
     return song
 
 
+# clean beat data
 def clean_beat(song):
     beat = song["beat"]
     if type(beat) == type([]):
@@ -43,6 +44,8 @@ def clean_beat(song):
         song['beat'] = ""
     return song
 
+
+# replace dots in people names by space
 def remove_dots_in_names(song):
     names = ["Artist", "Music", "Lyrics"]
     for i in names:
@@ -52,10 +55,11 @@ def remove_dots_in_names(song):
                 field[j] = field[j].replace(".", " ")
         else:
             field = field.replace(".", " ")
-        song.update({i:field})
+        song.update({i: field})
     return song
 
 
+# clean lyrics corpus
 def clean_lyrics(song):
     lyrics = song['song_lyrics']
     lines = lyrics.split("\n")
@@ -64,7 +68,6 @@ def clean_lyrics(song):
         line = line.strip()
         line = re.sub('[.!?\\-—]', '', line)
         if not line or line.isspace() or '\u200d' in line:
-            # if not line or line.isspace() or (line.isspace() and '\u200d' in line):
             pass
         else:
             final.append(line)
@@ -72,10 +75,24 @@ def clean_lyrics(song):
     return song
 
 
-def process():
-    # fields = ["title", "Artist", 'Genre', 'Lyrics', 'Music', 'guitar_key', 'beat', 'song_lyrics', 'number_of_visits',
-    #           'number_of_shares']
+# translate sinhal artist name, composer name, lyricist name and genre to sinhala
+def translate(song):
+    translator = Translator()
+    fields_to_translate = ["Artist", "Music", "Lyrics", "Genre"]
+    for i in fields_to_translate:
+        if type(song[i]) == list:
+            translated = []
+            for j in song[i]:
+                j = j.strip()
+                translated.append(translator.translate(j, dest='sinhala').text)
+        else:
+            song[i] = song[i].strip()
+            translated = translator.translate(song[i], dest='sinhala').text
+        song[i] = translated
+    return song
 
+
+def process():
     for i in range(510):
         with open("songs/" + str(i) + ".json") as json_file:
             song = json.load(json_file)
@@ -88,7 +105,7 @@ def process():
         # Fill the fields that are not found in original data with "නොදනී"
         song = fill_missing(song)
 
-        # remplace dots in names by space
+        # replace dots in names by space
         song = remove_dots_in_names(song)
 
         # Separate Sinhala title from title
@@ -112,35 +129,10 @@ def process():
             song["guitar_key"] = song["guitar_key"][-1]
         song["guitar_key"] = song["guitar_key"].strip().lower()
 
-        # time.sleep(10)
-
+        # write processed data to processed/ directory
         with open('processed/' + str(i) + '.json', 'w') as f:
             json.dump(song, f)
 
 
-def translate(song):
-    translator = Translator()
-    fields_to_translate = ["Artist", "Music", "Lyrics", "Genre"]
-    for i in fields_to_translate:
-        if type(song[i]) == list:
-            # print(song[i])
-            translated = []
-            for j in song[i]:
-                j = j.strip()
-                translated.append(translator.translate(j, dest='sinhala').text)
-                # translated.append(mtranslate.translate(j, 'si', 'en'))
-        else:
-            song[i] = song[i].strip()
-            translated = translator.translate(song[i], dest='sinhala').text
-            # translated = mtranslate.translate(song[i], 'si', 'en')
-        song[i] = translated
-    print("================")
-    return song
-
-
 if __name__ == "__main__":
     process()
-    # for i in range(510):
-    #     with open("processed/" + str(i) + ".json") as json_file:
-    #         song = json.load(json_file)
-    #     print(song["Genre"])
