@@ -6,6 +6,7 @@ es_client = Elasticsearch(HOST="http://localhost", PORT=9200)
 INDEX = 'songs'
 
 # define mappings and configs
+
 configs = {
     "settings": {
         "index": {
@@ -152,7 +153,6 @@ configs = {
         }
     }
 }
-
 
 def index():
     res = es_client.indices.create(index=INDEX, body=configs)

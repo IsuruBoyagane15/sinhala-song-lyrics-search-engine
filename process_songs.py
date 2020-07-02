@@ -75,7 +75,7 @@ def clean_lyrics(song):
     return song
 
 
-# translate sinhal artist name, composer name, lyricist name and genre to sinhala
+# translate sinhala artist name, composer name, lyricist name and genre to sinhala
 def translate(song):
     translator = Translator()
     fields_to_translate = ["Artist", "Music", "Lyrics", "Genre"]

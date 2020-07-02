@@ -12,7 +12,8 @@ def process_search_query(query):
     possible_keywords["guitar_key"] = ['minor', 'major', 'c', 'f', 'g', 'b', 'd', 'a', 'bb', 'ab']
     possible_keywords["beat"] = ['beat', 'බීට්', 'රිදම', 'රිදම්', 'රිදමය', 'තාලය', 'තාල']
 
-    possible_keywords["qualitative"] = ['හොදම'  'හොඳම', 'ජනප්‍රිය', 'ප්‍රචලිත', 'ප්‍රසිද්ධ', 'ජනප්‍රියම', 'ප්‍රචලිතම' 'ප්‍රචලිතම']
+    possible_keywords["qualitative"] = ['හොදම'  'හොඳම', 'ජනප්‍රිය', 'ප්‍රචලිත', 'ප්‍රසිද්ධ', 'ජනප්‍රියම',
+                                        'ප්‍රචලිතම' 'ප්‍රචලිතම']
     possible_keywords["shares"] = ['ශෙයා', 'ශෙය', 'බෙදපු', 'ශෙයාර්']
 
     tokens = query.strip().split(" ")
@@ -68,8 +69,8 @@ def process_search_query(query):
     ]
 
     processed_query = " ".join(tokens)
-    print("Processed query :",processed_query)
-    print("Boosted fields :",boost_fields)
+    print("Processed query :", processed_query)
+    print("Boosted fields :", boost_fields)
 
     # check for qualitative tokens and numbers to do a range query
     range_query = False
