@@ -1,5 +1,12 @@
 # Sinhala song lyrics search engine
 
+
+## Quick start
+
+1. Start Elasticsearch
+2. Create the index by running utils.py
+3. Start search engine app by running app.py 
+
 ## Lyrics and metadata
 
 Following 9 metadata with the song lyrics fo 510 songs are used to create the index in Elasticsearch.
