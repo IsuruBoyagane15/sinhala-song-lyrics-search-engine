@@ -1,7 +1,7 @@
 # Sinhala song lyrics search engine
 
 
-## Quick start
+## Usage
 
 1. Start Elasticsearch
 2. Create the index by running utils.py
